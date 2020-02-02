@@ -20,8 +20,8 @@ import com.example.recordxx.MainActivity.Companion.tvTips
 import java.util.*
 import com.example.recordxx.Tree.*
 
-class Adapter(private var context: Context, private val root: TimeTree<Mastur>) : Adapter<ListHolder>() {
-    var adapterData: LinkedList<Tree<Mastur>> = LinkedList()
+class Adapter(private var context: Context, private val root: TimeTree<Items>) : Adapter<ListHolder>() {
+    var adapterData: LinkedList<Tree<Items>> = LinkedList()
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ListHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.sample_item_mastur, viewGroup, false)
@@ -29,7 +29,7 @@ class Adapter(private var context: Context, private val root: TimeTree<Mastur>) 
     }
 
     override fun onBindViewHolder(holder: ListHolder, i: Int) {
-        val tree: Tree<Mastur> = adapterData[i]
+        val tree: Tree<Items> = adapterData[i]
         val left = (if (tree.specifyDepth > TimeField.NONE) tree.specifyDepth else tree.depth).dt - 1
         val density = context.resources.displayMetrics.density
         holder.view.scrollTo(0, 0)
@@ -57,7 +57,7 @@ class Adapter(private var context: Context, private val root: TimeTree<Mastur>) 
         holder.delete.setOnClickListener(onDeleteClick(tree))
     }
 
-    private fun onDeleteClick(tree: Tree<Mastur>): (View) -> Unit {
+    private fun onDeleteClick(tree: Tree<Items>): (View) -> Unit {
         return {
             val size = tree.leafCount
             if (size > 1) {
@@ -72,10 +72,10 @@ class Adapter(private var context: Context, private val root: TimeTree<Mastur>) 
         }
     }
 
-    private fun onLongClick(tree: Tree<Mastur>): (View) -> Boolean {
+    private fun onLongClick(tree: Tree<Items>): (View) -> Boolean {
         return {
             if (tree.depth > TimeField.MONTH) {
-                var temp: Tree<Mastur>? = tree
+                var temp = tree as Tree<Mastur>?
                 while (temp != null) {
                     if (temp.node.isEmpty()) break
                     temp = temp.node[0]
@@ -101,7 +101,7 @@ class Adapter(private var context: Context, private val root: TimeTree<Mastur>) 
 
                 spWeather.setSelection(indexWeather)
                 spLevel.setSelection(indexLevel)
-                etMemo.setText(temp.item!!.note)
+                etMemo.setText(temp.item!!.item3)
                 true
             } else false
         }
@@ -138,8 +138,8 @@ class Adapter(private var context: Context, private val root: TimeTree<Mastur>) 
     }
 
     /**删除条目数据*/
-    fun deleteItem(tree: Tree<Mastur>) {
-        val nodePare: Tree<Mastur> = tree.nodePare!!
+    fun deleteItem(tree: Tree<Items>) {
+        val nodePare: Tree<Items> = tree.nodePare!!
 
         //删除该节点
         val position = adapterData.indexOf(tree)
@@ -191,7 +191,7 @@ class Adapter(private var context: Context, private val root: TimeTree<Mastur>) 
      * @param holder
      * @param expand 0 节点收缩，1 节点展开。其它数值toggle模式
      * */
-    fun Tree<Mastur>.toggleNodeExpand(holder: ListHolder?, expand: Int = 3) {
+    fun Tree<Items>.toggleNodeExpand(holder: ListHolder?, expand: Int = 3) {
 
         val condition =
             if (MainActivity.selectedDepth == TimeField.NONE)
@@ -202,8 +202,8 @@ class Adapter(private var context: Context, private val root: TimeTree<Mastur>) 
         if (condition) {
             tvTips.text =
                 when {
-                    depth == TimeField.SECOND -> item?.note ?: "---空---"
-                    leaves.isNotEmpty()       -> leaves.last.item?.note ?: "---空---"
+                    depth == TimeField.SECOND -> item?.item3 ?: "---空---"
+                    leaves.isNotEmpty()       -> leaves.last.item?.item3 ?: "---空---"
                     else                      -> "---空---"
                 }
             return
@@ -224,7 +224,7 @@ class Adapter(private var context: Context, private val root: TimeTree<Mastur>) 
         //刷新左侧图标
         holder?.let { refreshItemLeftIcom(this, it) }
 
-        val temp: List<Tree<Mastur>> = allVisibleChildren
+        val temp: List<Tree<Items>> = allVisibleChildren
 
         //删除还是添加，处理代码
         val indexOfNode: Int = adapterData.indexOf(this) + 1

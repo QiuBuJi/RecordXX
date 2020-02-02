@@ -24,7 +24,7 @@ class TimeTree<E> {
 
     private var count = 0
     private var indexOfShowed = 0
-    fun indexOfVisible(tree: Tree<Mastur>): Int {
+    fun indexOfVisible(tree: Tree<Items>): Int {
         count = 0
         indexOfShowed = count
 
@@ -43,8 +43,8 @@ class TimeTree<E> {
     private fun getList(time: DateTime): List<Int> = arrayListOf(time.year, time.month, time.day, time.hour, time.minute, time.second)
 
     companion object {
-        fun makeTimeTree(log: String): TimeTree<Mastur> {
-            val result: TimeTree<Mastur> = TimeTree()
+        fun makeTimeTree(log: String): TimeTree<Items> {
+            val result: TimeTree<Items> = TimeTree()
             val strLineSet = log.split("\n").toTypedArray()
             val dateTime = DateTime()
 
@@ -62,18 +62,20 @@ class TimeTree<E> {
                         dateTime.minute = strTimeBothSet[1].toInt()
                         dateTime.second = 0
 
-                        val value: Mastur = when {
+                        val value: Items = when {
                             segs.size > 5  -> {
                                 val sb = StringBuilder()
                                 for (i in 4 until segs.size) sb.append(segs[i]).append(" ")
                                 val strTrimmed = sb.trim().toString()
 
-                                Mastur(segs[2], segs[3], strTrimmed)
+                                Items(segs[2] + " " + segs[3] + " " + strTrimmed)
                             }
-                            segs.size == 5 -> Mastur(segs[2], segs[3], segs[4])
-                            else           -> Mastur(segs[2], segs[3], "")
+                            segs.size == 5 -> Items(segs[2] + " " + segs[3] + " " + segs[4])
+                            else           -> Items(segs[2] + " " + segs[3] + " " + "")
                         }
                         result.add(dateTime, value)
+                        val mastur = value as Mastur
+
                     }
                 }
             }

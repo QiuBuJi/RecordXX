@@ -2,12 +2,9 @@ package com.example.recordxx
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.AlarmManager
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -21,8 +18,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.content.edit
-import androidx.net.toUri
 import com.example.recordxx.Tree.TimeField
 import com.example.recordxx.util.SpanUtil
 import kotlinx.android.synthetic.main.activity_main.*
@@ -48,7 +43,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnLongClick
     private lateinit var button: Button
     private lateinit var rlMain: RelativeLayout
     private var adapter: Adapter? = null
-    private var tree: TimeTree<Mastur> = TimeTree()
+    private var tree: TimeTree<Items> = TimeTree()
     private val handler = Handler() {
         when (it.what) {
             0 -> showLastTime()//显示距离上次的时间间隔
@@ -109,6 +104,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnLongClick
     }
 
     private fun readData() {
+        val list = pathRoot.list { _, str -> str.endsWith(".txt", true) }// FIXME: 2020.2.3 multiple file choose
+
+
+
         try {
             val fis = FileInputStream(pathData)
             val log = fis.readBytes()
@@ -220,13 +219,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnLongClick
 
     /**显示距离上次的时间间隔*/
     private fun showLastTime() {
-        var root: Tree<Mastur>? = tree.root
+        var root: Tree<Items>? = tree.root
 
         while (root != null) {
             if (root.depth == TimeField.DAY) {
                 //取时间间隔（上次距今的时间）
                 val leaves = root.leaves
-                val lastLeaf: Tree<Mastur> = if (leaves.size > 1) leaves.last else leaves.first
+                val lastLeaf: Tree<Items> = if (leaves.size > 1) leaves.last else leaves.first
                 val currentTime = DateTime.getCurrentTime()
                 val subtract = currentTime - lastLeaf.dateTime
 
@@ -353,7 +352,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnLongClick
         if (Tree.isDataChanged) {
             Tree.isDataChanged = false
             dataStore()
-            Toast.makeText(this, "数据保存了！", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -438,7 +436,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnLongClick
         val temp = LinkedList<String>()
 
         tree.traverse { it ->
-            val note = it.item?.note
+            val note = it.item?.item3
             note?.let {
                 if (it.matches(Regex("\\s+")).not() && it.isNotEmpty()) temp.add(it)
             }
@@ -471,9 +469,9 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnLongClick
     private fun submitOnClick() {
         val adapter = adapter ?: return
         tvNoData.visibility = View.INVISIBLE
-        val item = Mastur(main_spWeather.selectedItem.toString(),
-                          main_spLevel.selectedItem.toString(),
-                          main_etMemo.text.toString())
+        val item = Items(main_spWeather.selectedItem.toString() + " " +
+                         main_spLevel.selectedItem.toString() + " " +
+                         main_etMemo.text.toString())
         val addedValue = tree.add(dateTime, item)
 
         if (addedValue != null) adapter.notifyInsert(dateTime)
@@ -481,7 +479,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnLongClick
             AlertDialog.Builder(this)
                 .setTitle("数据已经存在！确定要替换吗？")
                 .setPositiveButton("确定") { _, _ ->
-                    val node: Tree<Mastur>? = tree.getNode(dateTime)
+                    val node: Tree<Items>? = tree.getNode(dateTime)
                     tree.replace(dateTime, item)
                     Tree.isDataChanged = true//提示数据已经改变了
 

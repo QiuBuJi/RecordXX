@@ -22,9 +22,6 @@ class Tree<E> {
     companion object {
         /**判断数据是否改变，改变了则需要保存数据，否则不需要保存数据*/
         var isDataChanged = false
-
-        val SECOND: TimeField = TimeField.SECOND
-
     }
 
     constructor(index: Int) {

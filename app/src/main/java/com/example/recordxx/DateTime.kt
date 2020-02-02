@@ -5,7 +5,6 @@ import com.example.review.New.StoreData
 import java.io.DataInputStream
 import java.io.DataOutputStream
 import java.io.IOException
-import java.time.ZoneId
 import java.util.*
 import kotlin.math.abs
 
@@ -17,7 +16,7 @@ class DateTime : StoreData {
     var minute = 0
     var second = 0
 
-    var mastur = Mastur()
+    var mastur = Items()
 
     constructor() {}
     constructor(rawBytes: ByteArray) {
