@@ -106,10 +106,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnLongClick
                 override fun onNothingSelected(p0: AdapterView<*>?) = Unit
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) = select()
             }
-
-        val alarm = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        //        alarm.set(0, 10, Intent(this.javaClass, MainActivity.javaClass))
-
     }
 
     private fun readData() {
@@ -394,7 +390,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, View.OnLongClick
 
         //备份数据
         val backupFile = File(pathRoot, "${dataName}.backup.txt")
+        if (!pathRoot.exists()) pathRoot.mkdirs()
         if (!backupFile.exists()) backupFile.createNewFile()//没有文件，则创建文件
+        if (!pathData.exists()) pathData.createNewFile()
+
         val fileIn = FileInputStream(pathData)
         var fos = FileOutputStream(backupFile)
         val readBytes = fileIn.readBytes()
