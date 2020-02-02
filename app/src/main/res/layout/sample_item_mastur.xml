@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.recordxx.activity.EditableItem xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_ripple_list_item">
+
+    <TextView
+        android:id="@+id/listItem_textView_circle"
+        android:layout_width="@dimen/fix_size"
+        android:layout_height="@dimen/fix_size"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/fg_click_color"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@+id/listItem_textView_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/listItem_textView_content" />
+
+    <TextView
+        android:id="@+id/listItem_textView_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:paddingEnd="8dp"
+        android:singleLine="true"
+        android:text="show"
+        android:textAlignment="textStart"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/listItem_textView_circle"
+        app:layout_constraintTop_toBottomOf="@+id/listItem_textView_line" />
+
+    <TextView
+        android:id="@+id/listItem_textView_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="#FF0000"
+        android:gravity="center"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:text="删除"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/listItem_textView_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/listItem_textView_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="hello world!"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.531"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</com.example.recordxx.activity.EditableItem>

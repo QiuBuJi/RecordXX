@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">RecordXX</string>
+
+    <string-array name="array_spinner">
+        <item>*</item>
+        <item>年</item>
+        <item>月</item>
+        <item>日</item>
+<!--        <item>时</item>-->
+<!--        <item>分</item>-->
+    </string-array>
+
+    <string-array name="list_weather">
+        <item>晴</item>
+        <item>雪</item>
+        <item>阴</item>
+        <item>雨</item>
+    </string-array>
+
+    <string-array name="list_level">
+        <item>1</item>
+        <item>1--</item>
+        <item>1-</item>
+        <item>1++</item>
+        <item>1+</item>
+        <item>0</item>
+    </string-array>
+
+
+    <string name="rDate">**日</string>
+    <string name="rTime">**:**</string>
+    <string name="rSubmit">添加</string>
+    <string name="Init_text">hello! my old friend</string>
+    <string name="Init_showing">you have nuthin.</string>
+</resources>
